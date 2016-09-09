@@ -1,0 +1,23 @@
+provider "aws" {
+#  access_key = "ACCESS_KEY_HERE"
+#  secret_key = "SECRET_KEY_HERE"
+  region     = "eu-west-1"
+}
+
+resource "aws_instance" "johan" {
+  key_name = "key-lv20ck"
+  tags { Name =  "TestTag" }
+  subnet_id = "subnet-0a3c7653"
+  ami           = "ami-3da0cf4e"
+  instance_type = "t2.micro"
+
+  provisioner "local-exec" {
+    command = "echo ${aws_instance.johan.public_ip} > pip.txt" 
+  }
+}
+resource "aws_eip" "ip" {
+    instance = "${aws_instance.johan.id}"
+#    id =  "eipalloc-523d2737" 
+    depends_on = ["aws_instance.johan"]
+}
+
