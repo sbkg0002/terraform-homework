@@ -1,3 +1,0 @@
-provider "aws" {
-  variable region = "eu-west-1"
-}
